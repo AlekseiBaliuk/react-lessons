@@ -1,21 +1,15 @@
-import { User } from './User/User';
-import { UsersList } from './UsersList/UsersList';
-import { Section } from './Section/Section';
-import { users } from 'data/users';
-import { GlobalStyles } from 'utils/GlobalStyle';
-
-const { name, email } = users[0];
+import { Route, Routes } from 'react-router-dom';
+import { Layout } from './Layout/Layout';
+import { HomePage } from 'pages/HomaPage/HomePage';
+import { AddContactPage } from 'pages/AddContactPage/AddContactPage';
 
 export const App = () => {
   return (
-    <>
-      <Section>
-        <User name={name} email={email} />
-      </Section>
-      <Section title="List of users">
-        <UsersList users={users} />
-      </Section>
-      <GlobalStyles />
-    </>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<HomePage />} />
+        <Route path="add" element={<AddContactPage />} />
+      </Route>
+    </Routes>
   );
 };
