@@ -1,59 +1,32 @@
-import { nanoid } from '@reduxjs/toolkit';
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addContact } from 'redux/userSlice';
-import { apiStatus } from 'services/apiStatus';
+import { addUser } from 'redux/usersOparations';
 
 export const Form = () => {
-  const [name, setName] = useState('');
-  const [age, setAge] = useState('');
-
   const dispatch = useDispatch();
 
-  const onChangeHandler = ({ target: { name, value } }) => {
-    name === 'name' ? setName(value) : setAge(value);
-  };
-
-  const onFormSubmit = async e => {
+  const handleSabmit = e => {
     e.preventDefault();
-
-    const status = await apiStatus();
-
-    const newUser = {
-      name,
-      age,
-      id: nanoid(),
-      status,
+    const form = e.target;
+    const user = {
+      name: form.elements.name.value,
+      email: form.elements.email.value,
     };
 
-    dispatch(addContact(newUser));
-
-    setName('');
-    setAge('');
-
+    dispatch(addUser(user));
+    form.reset();
   };
 
   return (
-    <form onSubmit={onFormSubmit}>
+    <form onSubmit={handleSabmit}>
       <label>
         Name
-        <input
-          type="text"
-          name="name"
-          value={name}
-          onChange={onChangeHandler}
-        />
+        <input type="text" name="name" placeholder="Name" title="name" />
       </label>
       <label>
-        Age
-        <input
-          type="number"
-          name="age"
-          value={age}
-          onChange={onChangeHandler}
-        />
+        Email
+        <input type="email" name="email" placeholder="Email" title="email" />
       </label>
-      <button>Add contact</button>
+      <button>Add user</button>
     </form>
   );
 };
